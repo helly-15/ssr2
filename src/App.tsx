@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Routes, Route, Outlet, Link, Navigate} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import Chart from "./Chart/Chart";
 
 export default function App(props:any) {
@@ -10,7 +10,9 @@ export default function App(props:any) {
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
             <Routes>
+
                 <Route path='/:yearId' element={<Chart componentData = {props.context}/>}/>
+                {/*<Route path='/:yearId-:articleId' element={<Chart componentData = {props.context}/>}/>*/}
                     {/*<Route index element={<Home />} />*/}
                     {/*<Route path="about" element={<About />} />*/}
                     {/*<Route path="dashboard" element={<Dashboard />} />*/}

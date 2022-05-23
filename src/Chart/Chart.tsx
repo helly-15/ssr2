@@ -46,10 +46,11 @@ export default function Chart(props) {
         "income": [0, 0, 0, 0, 0, 0, 0],
         "profit": [0, 0, 0, 0, 0, 0, 0],
     } ;
-    console.log(stateFromSSR)
-    const [data, setData] = useState(stateFromSSR);
 
-    const [year, setYear] = useState(params.yearId);
+    const [data, setData] = useState(stateFromSSR);
+    // console.log('stateFromSSR')
+    // console.log(stateFromSSR)
+    const [year, setYear] = useState(params.yearId?.slice(0,4));
 
     const dataForChart = {
         labels,

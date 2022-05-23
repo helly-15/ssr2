@@ -31,9 +31,11 @@ async function createServer() {
     }
     app.get('/favicon.ico', (req, res) => res.status(204));
     app.use("*", async (req, res) => {
-        let url = req.originalUrl;
+        let url = req.originalUrl.slice(0,5);
         // fetch data of the matched component
+
         const fetchData = () => {
+
             return axios.get( `https://my-json-server.typicode.com/helly-15/ssr-db${url}` ).then( response => {
                 return {
                     income: response.data.income,
@@ -42,6 +44,7 @@ async function createServer() {
             } );
         }
         let componentData = await fetchData();
+        console.log ( 'componentData' );
         console.log ( componentData );
         try {
             let template;
