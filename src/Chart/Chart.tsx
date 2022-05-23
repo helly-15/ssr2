@@ -40,14 +40,15 @@ const labels = ['Январь', 'Февраль', 'Март', 'Апрель', '�
 const years = ['2020', '2021', '2022']
 
 
-export default function Chart() {
+export default function Chart(props) {
     const params = useParams();
-    const [data, setData] = useState({
-        "2020": {
-            "income": [0, 0, 0, 0, 0, 0, 0],
-            "profit": [0, 0, 0, 0, 0, 0, 0],
-        }
-    });
+    const stateFromSSR = props.componentData  || {
+        "income": [0, 0, 0, 0, 0, 0, 0],
+        "profit": [0, 0, 0, 0, 0, 0, 0],
+    } ;
+    console.log(stateFromSSR)
+    const [data, setData] = useState(stateFromSSR);
+
     const [year, setYear] = useState(params.yearId);
 
     const dataForChart = {
@@ -65,16 +66,24 @@ export default function Chart() {
             },
         ],
     };
-
     useEffect(() => {
-        async function fetchData() {
-            const result = await axios(
-                `https://my-json-server.typicode.com/helly-15/ssr-db/${year}`,
-            );
-            setData(result.data);
+        async function fetchDataOnline() {
+            try {
+                const result = await axios(
+                    `https://my-json-server.typicode.com/helly-15/ssr-db/${year}`,
+                );
+                setData(result.data);
+            } catch (err) {
+                setData({
+                    "2020": {
+                        "income": [10, 10, 10, 10, 10, 10, 10],
+                        "profit": [10, 10, 10, 10, 10, 10, 10],
+                    }
+                });
+            }
         }
 
-        fetchData()
+        fetchDataOnline()
     }, [year]);
 
     return <div className={'chart-wrapper'}>

@@ -1,13 +1,15 @@
+
+let axios = require("axios");
 let path = require("path");
 let fsp = require("fs/promises");
 let express = require("express");
-
 let root = process.cwd();
 let isProduction = process.env.NODE_ENV === "production";
 
 function resolve(p) {
     return path.resolve(__dirname, p);
 }
+
 
 async function createServer() {
     let app = express();
@@ -19,7 +21,7 @@ async function createServer() {
     if (!isProduction) {
         vite = await require("vite").createServer({
             root,
-            server: { middlewareMode: "ssr" },
+            server: {middlewareMode: "ssr"},
         });
 
         app.use(vite.middlewares);
@@ -27,10 +29,20 @@ async function createServer() {
         app.use(require("compression")());
         app.use(express.static(resolve("dist/client")));
     }
-
+    app.get('/favicon.ico', (req, res) => res.status(204));
     app.use("*", async (req, res) => {
         let url = req.originalUrl;
-
+        // fetch data of the matched component
+        const fetchData = () => {
+            return axios.get( `https://my-json-server.typicode.com/helly-15/ssr-db${url}` ).then( response => {
+                return {
+                    income: response.data.income,
+                    profit: response.data.profit,
+                };
+            } );
+        }
+        let componentData = await fetchData();
+        console.log ( componentData );
         try {
             let template;
             let render;
@@ -49,7 +61,7 @@ async function createServer() {
                 render = require(resolve("dist/server/entry.server.js")).render;
             }
 
-            let html = template.replace("<!--app-html-->", render(url));
+            let html = template.replace("<!--app-html-->", render(url, componentData));
             res.setHeader("Content-Type", "text/html");
             return res.status(200).end(html);
         } catch (error) {
