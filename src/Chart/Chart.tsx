@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -27,30 +27,27 @@ export const options = {
     responsive: true,
     plugins: {
         legend: {
-            position: 'top',
-        },
-        title: {
             display: true,
-            text: 'Финансы',
+            position: 'top',
+            usePointStyle: true,
+            pointStyle: 'circle',
+            align: 'start',
         },
     },
 };
 
 const labels = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'];
-const years = ['2020', '2021', '2022']
-
+const years = ['2020', '2021', '2022'];
 
 export default function Chart(props) {
     const params = useParams();
-    const stateFromSSR = props.componentData  || {
+    const stateFromSSR = props.componentData || {
         "income": [0, 0, 0, 0, 0, 0, 0],
         "profit": [0, 0, 0, 0, 0, 0, 0],
-    } ;
+    };
 
     const [data, setData] = useState(stateFromSSR);
-    // console.log('stateFromSSR')
-    // console.log(stateFromSSR)
-    const [year, setYear] = useState(params.yearId?.slice(0,4));
+    const [year, setYear] = useState(params.yearId?.slice(0, 4));
 
     const dataForChart = {
         labels,
@@ -58,12 +55,12 @@ export default function Chart(props) {
             {
                 label: 'Выручка',
                 data: data.income,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                backgroundColor: 'rgb(17, 187, 136)',
             },
             {
                 label: 'Прибыль',
                 data: data.profit,
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                backgroundColor: 'rgba(0, 0, 0)',
             },
         ],
     };
@@ -86,8 +83,37 @@ export default function Chart(props) {
 
         fetchDataOnline()
     }, [year]);
-
+    const allButton = useRef(null);
+    const profitButton = useRef(null);
+    const incomeButton = useRef(null);
+    const legendButtons = [
+        allButton, incomeButton, profitButton
+    ]
+    const onButtonClick = (e) => {
+        legendButtons.forEach(button => {
+            button.current.classList.remove('button-active')
+        })
+        e.target.classList.toggle('button-active')
+    }
     return <div className={'chart-wrapper'}>
+
+        <p className={'chart-wrapper__title'}> Финансы </p>
+        <p className={'chart-wrapper__subtitle'}> Данные по финансовым показателям приведены на
+            основании <b> бухгалтерской отчетности</b></p>
+        <div className={'chart-wrapper__legend'}>
+            <button ref={allButton} onClick={(e) => onButtonClick(e)} className={'chart-wrapper__legend-button'}>Все
+            </button>
+            <button ref={incomeButton} onClick={(e) => onButtonClick(e)}
+                    className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
+                <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_profit'}/>
+                Выручка
+            </button>
+            <button ref={profitButton} onClick={(e) => onButtonClick(e)}
+                    className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
+                <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_income'}/>
+                Прибыль
+            </button>
+        </div>
         <Bar options={options} data={dataForChart}/>
         {years.map((year) =>
             <Link
@@ -100,3 +126,4 @@ export default function Chart(props) {
         )}
     </div>;
 }
+
