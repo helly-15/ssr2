@@ -33,7 +33,7 @@ export const options = {
             pointStyle: 'circle',
             align: 'start',
         },
-    },
+    }
 };
 
 const labels = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'];
@@ -49,20 +49,43 @@ export default function Chart(props) {
     const [data, setData] = useState(stateFromSSR);
     const [year, setYear] = useState(params.yearId?.slice(0, 4));
 
-    const dataForChart = {
+    const dataForChartConst = {
         labels,
         datasets: [
             {
                 label: 'Выручка',
                 data: data.income,
                 backgroundColor: 'rgb(17, 187, 136)',
+                barThickness: 20,
+                maxBarThickness: 20,
             },
             {
                 label: 'Прибыль',
                 data: data.profit,
                 backgroundColor: 'rgba(0, 0, 0)',
+                barThickness: 20,
+                maxBarThickness: 20,
             },
-        ],
+        ]
+    };
+    let dataForChart = {
+        labels,
+        datasets: [
+            {
+                label: 'Выручка',
+                data: data.income,
+                backgroundColor: 'rgb(17, 187, 136)',
+                barThickness: 20,
+                maxBarThickness: 20,
+            },
+            {
+                label: 'Прибыль',
+                data: data.profit,
+                backgroundColor: 'rgba(0, 0, 0)',
+                barThickness: 20,
+                maxBarThickness: 20,
+            },
+        ]
     };
     useEffect(() => {
         async function fetchDataOnline() {
@@ -93,10 +116,12 @@ export default function Chart(props) {
         legendButtons.forEach(button => {
             button.current.classList.remove('button-active')
         })
-        e.target.classList.toggle('button-active')
+        e.target.classList.toggle('button-active');
+        const filterField = e.target.innerText;
+        dataForChart = filterField === "Все"?{...dataForChartConst}:{...dataForChartConst, datasets:dataForChartConst.datasets.filter(dataItem => dataItem.label === filterField)}
+        console.log(dataForChart);
     }
     return <div className={'chart-wrapper'}>
-
         <p className={'chart-wrapper__title'}> Финансы </p>
         <p className={'chart-wrapper__subtitle'}> Данные по финансовым показателям приведены на
             основании <b> бухгалтерской отчетности</b></p>
@@ -115,6 +140,9 @@ export default function Chart(props) {
             </button>
         </div>
         <Bar options={options} data={dataForChart}/>
+
+
+
         {years.map((year) =>
             <Link
                 className='chart-wrapper__year'
