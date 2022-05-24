@@ -8,5 +8,18 @@
 <body>
 <div id="app"><!--app-html--></div>
 <script type="module" src="/src/entry.client.tsx"></script>
+<script type='application/ld+json'>
+    {
+        "@context": "http://www.schema.org",
+        "@type": "Corporation",
+        "name": "Wildberries",
+        "url": "http://legion-penza.tilda.ws/",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Москва, ул. Академика Королева 13"
+        }
+    }
+</script>
 </body>
 </html>

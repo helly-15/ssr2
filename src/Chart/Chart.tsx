@@ -127,6 +127,14 @@ export default function Chart(props) {
     }
     return <>
 
+            {/*{companies.map((company) =>*/}
+            {/*    <div*/}
+            {/*        className='chart-wrapper__year'*/}
+            {/*        key={company}*/}
+            {/*    >{company}</div>*/}
+            {/*)}*/}
+
+
         <Profile/>
         <div className={'chart-wrapper'}>
             <p className={'chart-wrapper__title'}> Финансы </p>
@@ -159,7 +167,6 @@ export default function Chart(props) {
                 >{year}</Link>
             )}
         </div>
-
     </>
 }
 
