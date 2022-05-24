@@ -13,6 +13,7 @@ import './Chart.css';
 import {Bar} from 'react-chartjs-2';
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
+import {Profile} from "../Profile/Profile";
 
 ChartJS.register(
     CategoryScale,
@@ -75,15 +76,15 @@ export default function Chart(props) {
                 label: 'Выручка',
                 data: data.income,
                 backgroundColor: 'rgb(17, 187, 136)',
-                barThickness: 20,
-                maxBarThickness: 20,
+                // barThickness: 20,
+                // maxBarThickness: 20,
             },
             {
                 label: 'Прибыль',
                 data: data.profit,
                 backgroundColor: 'rgba(0, 0, 0)',
-                barThickness: 20,
-                maxBarThickness: 20,
+                // barThickness: 20,
+                // maxBarThickness: 20,
             },
         ]
     };
@@ -118,40 +119,47 @@ export default function Chart(props) {
         })
         e.target.classList.toggle('button-active');
         const filterField = e.target.innerText;
-        dataForChart = filterField === "Все"?{...dataForChartConst}:{...dataForChartConst, datasets:dataForChartConst.datasets.filter(dataItem => dataItem.label === filterField)}
+        dataForChart = filterField === "Все" ? {...dataForChartConst} : {
+            ...dataForChartConst,
+            datasets: dataForChartConst.datasets.filter(dataItem => dataItem.label === filterField)
+        }
         console.log(dataForChart);
     }
-    return <div className={'chart-wrapper'}>
-        <p className={'chart-wrapper__title'}> Финансы </p>
-        <p className={'chart-wrapper__subtitle'}> Данные по финансовым показателям приведены на
-            основании <b> бухгалтерской отчетности</b></p>
-        <div className={'chart-wrapper__legend'}>
-            <button ref={allButton} onClick={(e) => onButtonClick(e)} className={'chart-wrapper__legend-button'}>Все
-            </button>
-            <button ref={incomeButton} onClick={(e) => onButtonClick(e)}
-                    className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
-                <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_profit'}/>
-                Выручка
-            </button>
-            <button ref={profitButton} onClick={(e) => onButtonClick(e)}
-                    className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
-                <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_income'}/>
-                Прибыль
-            </button>
+    return <>
+
+        <Profile/>
+        <div className={'chart-wrapper'}>
+            <p className={'chart-wrapper__title'}> Финансы </p>
+            <p className={'chart-wrapper__subtitle'}> Данные по финансовым показателям приведены на
+                основании <b> бухгалтерской отчетности</b></p>
+            <div className={'chart-wrapper__legend'}>
+                <button ref={allButton} onClick={(e) => onButtonClick(e)} className={'chart-wrapper__legend-button'}>Все
+                </button>
+                <button ref={incomeButton} onClick={(e) => onButtonClick(e)}
+                        className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
+                    <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_profit'}/>
+                    Выручка
+                </button>
+                <button ref={profitButton} onClick={(e) => onButtonClick(e)}
+                        className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
+                    <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_income'}/>
+                    Прибыль
+                </button>
+            </div>
+
+            <Bar options={options} data={dataForChart}/>
+
+            {years.map((year) =>
+                <Link
+                    className='chart-wrapper__year'
+                    to={`/${year}`}
+                    key={year}
+                    exact={'true'}
+                    onClick={() => setYear(year)}
+                >{year}</Link>
+            )}
         </div>
-        <Bar options={options} data={dataForChart}/>
 
-
-
-        {years.map((year) =>
-            <Link
-                className='chart-wrapper__year'
-                to={`/${year}`}
-                key={year}
-                exact={'true'}
-                onClick={() => setYear(year)}
-            >{year}</Link>
-        )}
-    </div>;
+    </>
 }
 
