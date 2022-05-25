@@ -30,15 +30,15 @@ export const options = {
         legend: {
             display: true,
             position: 'top',
-            usePointStyle: true,
-            pointStyle: 'circle',
+            // usePointStyle: true,
+            // pointStyle: 'circle',
             align: 'start',
         },
     }
 };
 
-const labels = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'];
-const years = ['2020', '2021', '2022'];
+const labels = ['2001', '2002', '2003', '2018', '2019', '2020', '2021'];
+const companies = ['wildberries', 'google', 'toyota'];
 
 export default function Chart(props) {
     const params = useParams();
@@ -48,7 +48,7 @@ export default function Chart(props) {
     };
 
     const [data, setData] = useState(stateFromSSR);
-    const [year, setYear] = useState(params.yearId?.slice(0, 4));
+    const [company, setCompany] = useState(params.companyId?.split('-')[0]);
 
     const dataForChartConst = {
         labels,
@@ -92,21 +92,16 @@ export default function Chart(props) {
         async function fetchDataOnline() {
             try {
                 const result = await axios(
-                    `https://my-json-server.typicode.com/helly-15/ssr-db/${year}`,
+                    `https://my-json-server.typicode.com/helly-15/ssr-db/${company}`,
                 );
                 setData(result.data);
             } catch (err) {
-                setData({
-                    "2020": {
-                        "income": [10, 10, 10, 10, 10, 10, 10],
-                        "profit": [10, 10, 10, 10, 10, 10, 10],
-                    }
-                });
+                console.log('backend response fail')
             }
         }
 
         fetchDataOnline()
-    }, [year]);
+    }, [company]);
     const allButton = useRef(null);
     const profitButton = useRef(null);
     const incomeButton = useRef(null);
@@ -126,14 +121,17 @@ export default function Chart(props) {
         console.log(dataForChart);
     }
     return <>
-
-            {/*{companies.map((company) =>*/}
-            {/*    <div*/}
-            {/*        className='chart-wrapper__year'*/}
-            {/*        key={company}*/}
-            {/*    >{company}</div>*/}
-            {/*)}*/}
-
+        <div className='chart-wrapper__company_wrapper'>
+            {companies.map((company) =>
+                <Link
+                    className='chart-wrapper__company'
+                    to={`/${company}`}
+                    key={company}
+                    exact={'true'}
+                    onClick={() => setCompany(company)}
+                >{company}</Link>
+            )}
+        </div>
 
         <Profile/>
         <div className={'chart-wrapper'}>
@@ -154,18 +152,7 @@ export default function Chart(props) {
                     Прибыль
                 </button>
             </div>
-
             <Bar options={options} data={dataForChart}/>
-
-            {years.map((year) =>
-                <Link
-                    className='chart-wrapper__year'
-                    to={`/${year}`}
-                    key={year}
-                    exact={'true'}
-                    onClick={() => setYear(year)}
-                >{year}</Link>
-            )}
         </div>
     </>
 }

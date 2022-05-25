@@ -6,10 +6,10 @@ export default function App(props:any) {
     return (
         <div>
             <Routes>
-                <Route path='/:yearId' element={<Chart componentData = {props.context}/>}/>
+                <Route path='/:companyId' element={<Chart componentData = {props.context}/>}/>
                     <Route
                         path="*"
-                        element={<Navigate to="/2020" replace />}
+                        element={<Navigate to="/wildberries" replace />}
                     />
             </Routes>
         </div>

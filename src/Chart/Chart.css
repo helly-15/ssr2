@@ -27,7 +27,7 @@
     line-height: 1.5;
 }
 
-.chart-wrapper__year {
+.chart-wrapper__company {
     display: inline-block;
     box-sizing: border-box;
     background-color: #FFFFFF;
@@ -49,16 +49,23 @@
     margin: 10px 10px;
 }
 
-.chart-wrapper__year:hover {
+.chart-wrapper__company:first-letter {
+    text-transform: capitalize ;
+}
+.chart-wrapper__company_wrapper{
+    display: flex;
+    justify-content: center;
+}
+.chart-wrapper__company:hover {
     background-color: rgb(249, 250, 251);
 }
 
-.chart-wrapper__year:focus {
+.chart-wrapper__company:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
 }
 
-.chart-wrapper__year:focus-visible {
+.chart-wrapper__company:focus-visible {
     box-shadow: none;
 }
 .chart-wrapper__legend{

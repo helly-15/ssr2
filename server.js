@@ -31,7 +31,7 @@ async function createServer() {
     }
     app.get('/favicon.ico', (req, res) => res.status(204));
     app.use("*", async (req, res) => {
-        let url = req.originalUrl.slice(0,5);
+        let url = req.originalUrl.split('-')[0];
         // fetch data of the matched component
 
         const fetchData = () => {
