@@ -77,6 +77,39 @@ async function createServer() {
         }
     });
 
+    function setNoCache(res) {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() - 1);
+        res.setHeader("Expires", date.toUTCString());
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Cache-Control", "public, no-cache");
+    }
+
+    function setLongTermCache(res) {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() + 1);
+        res.setHeader("Expires", date.toUTCString());
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    }
+
+    const BUILD_PATH = "dist/client";
+
+    app.use(
+        express.static(BUILD_PATH, {
+            extensions: ["html"],
+            setHeaders(res, path) {
+                if (path.match(/(\.html|\/sw)$/)) {
+                    setNoCache(res);
+                } else if (path.match(/\.(js|css|png|jpg|jpeg|gif|ico|json)$/)) {
+                    setLongTermCache(res);
+                }
+            },
+        }),
+    );
+    app.get("*", (req, res) => {
+        setNoCache(res);
+        res.sendFile(path.resolve(BUILD_PATH, "index.html"));
+    });
     return app;
 }
 
