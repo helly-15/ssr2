@@ -40,6 +40,7 @@ async function createServer() {
                 return {
                     income: response.data.income,
                     profit: response.data.profit,
+                    profile: response.data.profile,
                 };
             } );
         }

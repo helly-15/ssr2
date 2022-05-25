@@ -45,6 +45,13 @@ export default function Chart(props) {
     const stateFromSSR = props.componentData || {
         "income": [0, 0, 0, 0, 0, 0, 0],
         "profit": [0, 0, 0, 0, 0, 0, 0],
+        "profile": {
+            "regDate": "",
+            "capital": "",
+            "address": "",
+            "ogrn": "",
+            "inn": ""
+        }
     };
 
     const [data, setData] = useState(stateFromSSR);
@@ -133,7 +140,7 @@ export default function Chart(props) {
             )}
         </div>
 
-        <Profile/>
+        <Profile profile={data.profile}/>
         <div className={'chart-wrapper'}>
             <p className={'chart-wrapper__title'}> Финансы </p>
             <p className={'chart-wrapper__subtitle'}> Данные по финансовым показателям приведены на
