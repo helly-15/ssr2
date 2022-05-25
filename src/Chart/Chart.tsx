@@ -27,17 +27,17 @@ ChartJS.register(
 export const options = {
     responsive: true,
     plugins: {
-        // legend: {
-        //     display: true,
-        //     labels: {
-        //         color: 'rgb(255, 99, 132)'
-        //     },
-        //     // display: true,
-        //     // position: 'top',
-        //     usePointStyle: true,
-        //     pointStyle: 'circle',
-        //     // align: 'start',
-        // },
+        legend: {
+            display: false,
+            // labels: {
+            //     color: 'rgb(255, 99, 132)'
+            // },
+            // // display: true,
+            // // position: 'top',
+            // usePointStyle: true,
+            // pointStyle: 'circle',
+            // align: 'start',
+        },
 
         // legend: {
         //     display: true,
