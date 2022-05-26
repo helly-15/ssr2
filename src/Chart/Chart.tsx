@@ -85,6 +85,13 @@ export default function ChartComponent(props) {
                 const result = await axios(
                     `https://my-json-server.typicode.com/helly-15/ssr-db/${company}`,
                 );
+                //add schema org to head
+                const structuredDataText = JSON.stringify(result.data?.structuredDataText);
+                        const script = document.createElement('script');
+                        script.setAttribute('type', 'application/ld+json');
+                        script.textContent = structuredDataText;
+                        document.head.appendChild(script);
+
                 setData(result.data);
             } catch (err) {
                 console.log('backend response fail')

@@ -1,35 +1,116 @@
 {
   "wildberries": {
-    "income": [20,70,40,100,20,20,80],
-    "profit": [10,40,20,90,10,10,50],
+    "income": [
+      20,
+      70,
+      40,
+      100,
+      20,
+      20,
+      80
+    ],
+    "profit": [
+      10,
+      40,
+      20,
+      90,
+      10,
+      10,
+      50
+    ],
     "profile": {
       "regDate": "17.01.2001",
       "capital": "10 110 000 ₽",
       "address": "ОБЛ. МОСКОВСКАЯ Г. Подольск Д. Коледино ТЕР. ИНДУСТРИАЛЬНЫЙ ПАРК КОЛЕДИНО Д. 6 СТР. 1",
-      "ogrn":"1067746062449",
-      "inn":"7721546864"
+      "ogrn": "1067746062449",
+      "inn": "7721546864"
+    },
+    "structuredDataText": {
+      "@context": "http://www.schema.org",
+      "@type": "Corporation",
+      "name": "Wildberries",
+      "url": "http://wildberries.ru/",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Москва, ул. Академика Королева 13"
+      }
     }
   },
   "google": {
-    "income": [100,70,40,300,20,20,800],
-    "profit": [10,40,20,290,10,10,50],
+    "income": [
+      100,
+      70,
+      40,
+      300,
+      20,
+      20,
+      800
+    ],
+    "profit": [
+      10,
+      40,
+      20,
+      290,
+      10,
+      10,
+      50
+    ],
     "profile": {
       "regDate": "22.10.2010",
       "capital": "20 220 000 ₽",
       "address": "ОБЛ. ЛЕНИНГРАДСКАЯ Г. Пушкин Д. Коледино ул. Индустриальная Д. 7 СТР. 5",
-      "ogrn":"10677483746",
-      "inn":"773746345"
+      "ogrn": "10677483746",
+      "inn": "773746345"
+    },
+    "structuredDataText": {
+      "@context": "http://www.schema.org",
+      "@type": "Corporation",
+      "name": "Google",
+      "url": "http://google.ru/",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Москва, ул. Академика Королева 13"
+      }
     }
   },
   "toyota": {
-    "income": [200,70,400,100,200,20,80],
-    "profit": [10,40,20,90,100,10,50],
+    "income": [
+      200,
+      70,
+      400,
+      100,
+      200,
+      20,
+      80
+    ],
+    "profit": [
+      10,
+      40,
+      20,
+      90,
+      100,
+      10,
+      50
+    ],
     "profile": {
       "regDate": "30.01.2021",
       "capital": "340 160 000 ₽",
       "address": "ОБЛ. ТВЕРСКАЯ Г. Тверь ТЕР. КППД. ИВАНЬКОВО 63 СТР. 6",
-      "ogrn":"1067746062449",
-      "inn":"7721546864"
+      "ogrn": "1067746062449",
+      "inn": "7721546864"
+    },
+    "structuredDataText": {
+      "@context": "http://www.schema.org",
+      "@type": "Corporation",
+      "name": "Toyota",
+      "url": "http://toyota.ru/",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Москва, ул. Академика Королева 13"
+      }
     }
   }
 }
