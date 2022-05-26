@@ -10,7 +10,7 @@ import {
     Legend,
 } from 'chart.js';
 import './Chart.css';
-import { Bar } from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
 import {Profile} from "../Profile/Profile";
@@ -29,27 +29,12 @@ export const options = {
     plugins: {
         legend: {
             display: false,
-            // labels: {
-            //     color: 'rgb(255, 99, 132)'
-            // },
-            // // display: true,
-            // // position: 'top',
-            // usePointStyle: true,
-            // pointStyle: 'circle',
-            // align: 'start',
         },
-
-        // legend: {
-        //     display: true,
-        //     labels: {
-        //         color: 'rgb(255, 99, 132)'
-        //     }
-        // }
     },
     scales: {
         y: {
             ticks: {
-                callback: function(value, index, ticks) {
+                callback: function (value, index, ticks) {
                     return value + ' млрд. ₽';
                 }
             }
@@ -77,23 +62,6 @@ export default function ChartComponent(props) {
     const [data, setData] = useState(stateFromSSR);
     const [company, setCompany] = useState(params.companyId?.split('-')[0]);
     const chartRef = useRef<ChartJS>(null);
-    const dataForChartConst = {
-        labels,
-        datasets: [
-            {
-                label: 'Выручка',
-                data: data.income,
-                type: 'bar' as const,
-                backgroundColor: 'rgb(17, 187, 136)',
-            },
-            {
-                label: 'Прибыль',
-                data: data.profit,
-                type: 'bar' as const,
-                backgroundColor: 'rgba(0, 0, 0)',
-            },
-        ]
-    };
     let dataForChart = {
         labels,
         datasets: [
@@ -131,38 +99,25 @@ export default function ChartComponent(props) {
     const legendButtons = [
         allButton, incomeButton, profitButton
     ]
-    const onButtonClick = (e) => {
-        // legendButtons.forEach(button => {
-        //     button.current.classList.remove('button-active')
-        // })
-        // e.target.classList.toggle('button-active');
-        // const filterField = e.target.innerText;
-        // dataForChart = filterField === "Все" ? {...dataForChartConst} : {
-        //     ...dataForChartConst,
-        //     datasets: dataForChartConst.datasets.filter(dataItem => dataItem.label === filterField)
-        // }
+    const onButtonClick = (e, buttonIndex) => {
+        legendButtons.forEach(button => {
+            button.current.classList.remove('button-active')
+        })
+        e.target.classList.toggle('button-active');
 
-
-       // chartRef.current.clear();
-        ////chartRef.current.destroy();
-        //chartRef.current.draw();
-       // chartRef.current.clear();
-       //   chartRef.current.update('active');
-        ////chartRef.current.reset();
-        ////chartRef.current.buildOrUpdateScales();
-
-        // chartRef.current.render();
-
-
-        chartRef.current.setDatasetVisibility(0, !chartRef.current.isDatasetVisible(0));
-
+        if (buttonIndex === 0) {
+            chartRef.current.setDatasetVisibility(0, true);
+            chartRef.current.setDatasetVisibility(1, true);
+        } else if (buttonIndex === 1){
+            chartRef.current.setDatasetVisibility(0, true);
+            chartRef.current.setDatasetVisibility(1, false);
+        } else {
+            chartRef.current.setDatasetVisibility(0, false);
+            chartRef.current.setDatasetVisibility(1, true);
+        }
+        //chartRef.current.setDatasetVisibility(0, !chartRef.current.isDatasetVisible(0));
 
         chartRef.current.update();
-
-
-
-        console.log(dataForChart)
-        console.log(chartRef.current.options)
     }
     return <>
         <div className='chart-wrapper__company_wrapper'>
@@ -183,14 +138,15 @@ export default function ChartComponent(props) {
             <p className={'chart-wrapper__subtitle'}> Данные по финансовым показателям приведены на
                 основании <b> бухгалтерской отчетности</b></p>
             <div className={'chart-wrapper__legend'}>
-                <button ref={allButton} onClick={(e) => onButtonClick(e)} className={'chart-wrapper__legend-button'}>Все
+                <button ref={allButton} onClick={(e) => onButtonClick(e, 0)}
+                        className={'chart-wrapper__legend-button'}>Все
                 </button>
-                <button ref={incomeButton} onClick={(e) => onButtonClick(e)}
+                <button ref={incomeButton} onClick={(e) => onButtonClick(e, 1)}
                         className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
                     <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_profit'}/>
                     Выручка
                 </button>
-                <button ref={profitButton} onClick={(e) => onButtonClick(e)}
+                <button ref={profitButton} onClick={(e) => onButtonClick(e, 2)}
                         className={'chart-wrapper__legend-button chart-wrapper__legend-button_withdot'}>
                     <span className={'chart-wrapper__legend-button_dot chart-wrapper__legend-button_dot_income'}/>
                     Прибыль
