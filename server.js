@@ -31,18 +31,18 @@ async function createServer() {
     }
     app.get('/favicon.ico', (req, res) => res.status(204));
     app.use("*", async (req, res) => {
-        let url = req.originalUrl.split('-')[0];
+        let url = req.originalUrl.split('-')[0].split('/')[1];
         // fetch data of the matched component
-
         const fetchData = () => {
 
-            return axios.get( `https://my-json-server.typicode.com/helly-15/ssr-db${url}` ).then( response => {
+            return axios.get( `https://my-json-server.typicode.com/helly-15/ssr-db/${url}` ).then( response => {
                 return {
                     income: response.data.income,
                     profit: response.data.profit,
                     profile: response.data.profile,
                 };
-            } );
+            } )
+                .catch(() =>console.log ( 'incorrect url'));
         }
         let componentData = await fetchData();
         console.log ( 'componentData' );

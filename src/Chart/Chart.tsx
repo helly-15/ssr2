@@ -124,7 +124,7 @@ export default function ChartComponent(props) {
             {companies.map((company) =>
                 <Link
                     className='chart-wrapper__company'
-                    to={`/${company}`}
+                    to={`/company/${company}`}
                     key={company}
                     exact={'true'}
                     onClick={() => setCompany(company)}
